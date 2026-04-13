@@ -86,6 +86,4 @@ You can use the provided startup scripts (e.g. `startup.ps1`) or easily spin up 
 
 For full setup directions or additional architecture definitions, consult the documentation within the `bin/` directory and module specific READMEs.
 
-## Contributors
 
-**Jayasri2417**
