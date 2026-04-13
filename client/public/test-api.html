@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoValuator API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            color: #1e40af;
+            border-bottom: 2px solid #1e40af;
+            padding-bottom: 10px;
+        }
+        button {
+            background: #1e40af;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #1e3a8a;
+        }
+        .result {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #059669;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+        }
+        .loading {
+            color: #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 GeoValuator Backend API Test Suite</h1>
+    <p>Test all three main features: My Properties, Search Location, and AI Agent</p>
+
+    <!-- Test 1: Location Search -->
+    <div class="test-section">
+        <h2>1️⃣ Search Location Feature</h2>
+        <p>Tests the geocoding and location search functionality</p>
+        <button onclick="testLocationSearch()">🔍 Test Location Search</button>
+        <button onclick="testLandSearch()">🏘️ Test Land/Property Search</button>
+        <div id="location-result" class="result"></div>
+    </div>
+
+    <!-- Test 2: My Properties -->
+    <div class="test-section">
+        <h2>2️⃣ My Properties Feature</h2>
+        <p>Tests property management endpoints (requires authentication)</p>
+        <button onclick="testMyProperties()">📋 Test My Properties</button>
+        <button onclick="testDemoIntelligence()">🎯 Test Demo Intelligence</button>
+        <div id="properties-result" class="result"></div>
+    </div>
+
+    <!-- Test 3: AI Agent -->
+    <div class="test-section">
+        <h2>3️⃣ AI Agent Feature</h2>
+        <p>Tests AI chat and analysis capabilities</p>
+        <button onclick="testAIChat()">🤖 Test AI Chat</button>
+        <button onclick="testPriceEstimate()">💰 Test Price Estimate</button>
+        <button onclick="testLegalRisk()">⚖️ Test Legal Risk Analysis</button>
+        <div id="ai-result" class="result"></div>
+    </div>
+
+    <!-- Summary -->
+    <div class="test-section">
+        <h2>📊 Test Summary</h2>
+        <div id="summary" class="result">Click buttons above to run tests</div>
+    </div>
+
+    <script>
+        const BASE_URL = '';  // Empty because we're using Vite proxy
+        let testResults = {
+            locationSearch: '❓ Not tested',
+            landSearch: '❓ Not tested',
+            myProperties: '❓ Not tested',
+            demoIntelligence: '❓ Not tested',
+            aiChat: '❓ Not tested',
+            priceEstimate: '❓ Not tested',
+            legalRisk: '❓ Not tested'
+        };
+
+        function updateSummary() {
+            const summary = document.getElementById('summary');
+            summary.innerHTML = Object.entries(testResults)
+                .map(([key, value]) => `<div>${key}: ${value}</div>`)
+                .join('');
+        }
+
+        async function testLocationSearch() {
+            const result = document.getElementById('location-result');
+            result.innerHTML = '<span class="loading">Testing...</span>';
+            
+            try {
+                const response = await fetch(`${BASE_URL}/api/geocode/search?q=hyderabad&limit=5`);
+                const data = await response.json();
+                
+                if (response.ok && data.length > 0) {
+                    result.innerHTML = `<span class="success">✅ SUCCESS</span>\nFound ${data.length} locations:\n${JSON.stringify(data, null, 2)}`;
+                    testResults.locationSearch = '✅ PASS';
+                } else {
+                    result.innerHTML = `<span class="error">❌ FAILED</span>\nNo results found`;
+                    testResults.locationSearch = '❌ FAIL';
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR</span>\n${error.message}`;
+                testResults.locationSearch = '❌ ERROR';
+            }
+            updateSummary();
+        }
+
+        async function testLandSearch() {
+            const result = document.getElementById('location-result');
+            result.innerHTML = '<span class="loading">Testing...</span>';
+            
+            try {
+                const response = await fetch(`${BASE_URL}/api/land/search?q=guntur`);
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    result.innerHTML = `<span class="success">✅ SUCCESS</span>\nFound ${data.results?.length || 0} properties:\n${JSON.stringify(data, null, 2)}`;
+                    testResults.landSearch = '✅ PASS';
+                } else {
+                    result.innerHTML = `<span class="error">❌ FAILED</span>\n${JSON.stringify(data, null, 2)}`;
+                    testResults.landSearch = '❌ FAIL';
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR</span>\n${error.message}`;
+                testResults.landSearch = '❌ ERROR';
+            }
+            updateSummary();
+        }
+
+        async function testMyProperties() {
+            const result = document.getElementById('properties-result');
+            result.innerHTML = '<span class="loading">Testing...</span>';
+            
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch(`${BASE_URL}/api/land/my-lands`, {
+                    headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+                });
+                
+                if (response.status === 401 || response.status === 403) {
+                    result.innerHTML = `<span class="success">✅ AUTH WORKING</span>\nEndpoint requires authentication (as expected)\nPlease login first to test with real data`;
+                    testResults.myProperties = '✅ PASS (Auth Required)';
+                } else if (response.ok) {
+                    const data = await response.json();
+                    result.innerHTML = `<span class="success">✅ SUCCESS</span>\nFound ${data.length} properties:\n${JSON.stringify(data, null, 2)}`;
+                    testResults.myProperties = '✅ PASS';
+                } else {
+                    result.innerHTML = `<span class="error">❌ FAILED</span>\nStatus: ${response.status}`;
+                    testResults.myProperties = '❌ FAIL';
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR</span>\n${error.message}`;
+                testResults.myProperties = '❌ ERROR';
+            }
+            updateSummary();
+        }
+
+        async function testDemoIntelligence() {
+            const result = document.getElementById('properties-result');
+            result.innerHTML = '<span class="loading">Testing...</span>';
+            
+            try {
+                const response = await fetch(`${BASE_URL}/api/land/demo-intelligence`);
+                const data = await response.json();
+                
+                if (response.ok && Array.isArray(data)) {
+                    result.innerHTML = `<span class="success">✅ SUCCESS</span>\nLoaded ${data.length} demo properties:\n${JSON.stringify(data.slice(0, 2), null, 2)}\n... and ${data.length - 2} more`;
+                    testResults.demoIntelligence = '✅ PASS';
+                } else {
+                    result.innerHTML = `<span class="error">❌ FAILED</span>\n${JSON.stringify(data, null, 2)}`;
+                    testResults.demoIntelligence = '❌ FAIL';
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR</span>\n${error.message}`;
+                testResults.demoIntelligence = '❌ ERROR';
+            }
+            updateSummary();
+        }
+
+        async function testAIChat() {
+            const result = document.getElementById('ai-result');
+            result.innerHTML = '<span class="loading">Testing...</span>';
+            
+            try {
+                const response = await fetch(`${BASE_URL}/api/ai/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: 'What is the average land price in Guntur?',
+                        history: []
+                    })
+                });
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    result.innerHTML = `<span class="success">✅ SUCCESS</span>\nAI Response:\n${data.response}\n\nSource: ${data.source}`;
+                    testResults.aiChat = '✅ PASS';
+                } else {
+                    result.innerHTML = `<span class="error">❌ FAILED</span>\n${JSON.stringify(data, null, 2)}`;
+                    testResults.aiChat = '❌ FAIL';
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR</span>\n${error.message}`;
+                testResults.aiChat = '❌ ERROR';
+            }
+            updateSummary();
+        }
+
+        async function testPriceEstimate() {
+            const result = document.getElementById('ai-result');
+            result.innerHTML = '<span class="loading">Testing...</span>';
+            
+            try {
+                const response = await fetch(`${BASE_URL}/api/ai/estimate-price`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ location: 'Jubilee Hills, Hyderabad' })
+                });
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    result.innerHTML = `<span class="success">✅ SUCCESS</span>\nPrice Estimate for ${data.location}:\nMin: ₹${data.min_price}/sq.yd\nMax: ₹${data.max_price}/sq.yd\nTrend: ${data.trend}\nSource: ${data.source}`;
+                    testResults.priceEstimate = '✅ PASS';
+                } else {
+                    result.innerHTML = `<span class="error">❌ FAILED</span>\n${JSON.stringify(data, null, 2)}`;
+                    testResults.priceEstimate = '❌ FAIL';
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR</span>\n${error.message}`;
+                testResults.priceEstimate = '❌ ERROR';
+            }
+            updateSummary();
+        }
+
+        async function testLegalRisk() {
+            const result = document.getElementById('ai-result');
+            result.innerHTML = '<span class="loading">Testing...</span>';
+            
+            try {
+                const response = await fetch(`${BASE_URL}/api/ai/analyze-legal-risk`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        surveyNumber: 'TEST-123',
+                        riskScore: 45,
+                        existingEncumbrance: 'None',
+                        marketValue: 5000000
+                    })
+                });
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    result.innerHTML = `<span class="success">✅ SUCCESS</span>\nLegal Risk Analysis:\nDispute Probability: ${data.dispute_probability}%\nRisk Factors: ${JSON.stringify(data.risk_factors)}\nPreventive Steps: ${JSON.stringify(data.preventive_steps)}\nSummary: ${data.legal_summary}\nSource: ${data.source}`;
+                    testResults.legalRisk = '✅ PASS';
+                } else {
+                    result.innerHTML = `<span class="error">❌ FAILED</span>\n${JSON.stringify(data, null, 2)}`;
+                    testResults.legalRisk = '❌ FAIL';
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR</span>\n${error.message}`;
+                testResults.legalRisk = '❌ ERROR';
+            }
+            updateSummary();
+        }
+
+        // Initial summary
+        updateSummary();
+    </script>
+</body>
+</html>

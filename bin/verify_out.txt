@@ -1,0 +1,25 @@
+﻿--- Email Configuration Verification ---
+User: geovaluvater@gmail.com
+[2026-02-09 03:46:48] DEBUG Creating transport: nodemailer (6.10.1; +https://nodemailer.com/; SMTP/6.10.1[client:6.10.1])
+Validating credentials with Gmail...
+[2026-02-09 03:46:48] DEBUG [CeEA1kNJCUQ] Resolved smtp.gmail.com as 192.178.211.108 [cache miss]
+[2026-02-09 03:46:49] INFO  [CeEA1kNJCUQ] Secure connection established to 192.178.211.108:465
+[2026-02-09 03:46:49] DEBUG [CeEA1kNJCUQ] S: 220 smtp.gmail.com ESMTP 98e67ed59e1d1-354b224aeebsm9548274a91.16 - gsmtp
+[2026-02-09 03:46:49] DEBUG [CeEA1kNJCUQ] C: EHLO [127.0.0.1]
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] S: 250-smtp.gmail.com at your service, [106.200.26.94]
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] S: 250-SIZE 35882577
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] S: 250-8BITMIME
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] S: 250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] S: 250-ENHANCEDSTATUSCODES
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] S: 250-PIPELINING
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] S: 250-CHUNKING
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] S: 250 SMTPUTF8
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] SMTP handshake finished
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] C: AUTH PLAIN AGdlb3ZhbHV2YXRlckBnbWFpbC5jb20ALyogc2VjcmV0ICov
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] S: 535-5.7.8 Username and Password not accepted. For more information, go to
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] S: 535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-354b224aeebsm9548274a91.16 - gsmtp
+[2026-02-09 03:46:50] INFO  [CeEA1kNJCUQ] User "geovaluvater@gmail.com" failed to authenticate
+[2026-02-09 03:46:50] DEBUG [CeEA1kNJCUQ] Closing connection to the server using "end"
+
+≡ƒÆí Tip: Check if your App Password is correct and 2-Step Verification is enabled.
+[2026-02-09 03:46:50] INFO  [CeEA1kNJCUQ] Connection closed

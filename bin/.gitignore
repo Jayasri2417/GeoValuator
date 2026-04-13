@@ -1,0 +1,57 @@
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.DS_Store
+dist
+.env
+.env.*
+!.env.example
+
+# Additional ignores
+# Logs
+logs/
+*.log
+
+# Coverage and reports
+coverage/
+*.lcov
+
+# Build caches
+build/
+.cache/
+
+# Vite/React
+client/dist/
+client/.vite/
+client/.cache/
+
+# Server
+server/dist/
+server/build/
+
+# Python caches
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.coverage
+
+# Virtual environments
+.venv/
+venv/
+**/.venv/
+**/venv/
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+
+# Archive artifacts
+archive/**/__pycache__/
+archive/**/.venv/

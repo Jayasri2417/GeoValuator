@@ -1,0 +1,13 @@
+{
+  "files": [
+    "DELIVERY_SUMMARY.md",
+    "NEXT_STEPS.md",
+    "QUICK_REFERENCE.md",
+    "start_project.ps1",
+    "client/src/pages/Dashboard.jsx"
+  ],
+  "patterns": [
+    "*OLD*.md",
+    "*Legacy*.md"
+  ]
+}

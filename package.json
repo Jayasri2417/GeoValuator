@@ -1,0 +1,22 @@
+{
+  "name": "geovaluvator",
+  "version": "1.0.0",
+  "description": "Hybrid microservices blueprint with React frontend, Node/Express core, and FastAPI AI engine.",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\" \"npm run ai\"",
+    "server": "cross-env PORT=5051 npm --prefix server start",
+    "client": "npm --prefix client run dev",
+    "ai": "cd ai_engine && ..\\.venv\\Scripts\\python.exe main.py",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0"
+  }
+}

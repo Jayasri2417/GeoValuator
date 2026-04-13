@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Updated Dashboard Functions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 10px;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+        .success {
+            background: #10b981;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .error {
+            background: #ef4444;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .result {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #cbd5e1;
+            border-radius: 5px;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-ok { background: #d1fae5; color: #065f46; }
+        .status-fail { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Dashboard Function Tests</h1>
+    <p>Testing Search Engine, AI Agent, and Profile functionality</p>
+
+    <!-- Search Test -->
+    <div class="test-section">
+        <h2>🔍 Search Engine Test</h2>
+        <input type="text" id="searchInput" placeholder="Enter location (guntur, hyderabad, vijayawada...)" value="guntur">
+        <button onclick="testSearch()">Test Search</button>
+        <button onclick="testSearch('hyderabad')">Search Hyderabad</button>
+        <button onclick="testSearch('vijayawada')">Search Vijayawada</button>
+        <div id="searchStatus"></div>
+        <div id="searchResult" class="result"></div>
+    </div>
+
+    <!-- AI Agent Test -->
+    <div class="test-section">
+        <h2>🤖 AI Agent Test</h2>
+        <textarea id="aiInput" rows="3" placeholder="Ask about land valuation, market trends, investment advice...">What is the best time to invest in land in Guntur?</textarea>
+        <button onclick="testAI()">Send to AI</button>
+        <button onclick="testAI('Analyze the risk of buying agricultural land in Vijayawada')">Test Risk Analysis</button>
+        <button onclick="testAI('What are current land prices in Hyderabad?')">Test Price Query</button>
+        <div id="aiStatus"></div>
+        <div id="aiResult" class="result"></div>
+    </div>
+
+    <!-- Profile Test -->
+    <div class="test-section">
+        <h2>👤 Profile & Verification Test</h2>
+        <button onclick="testProfile()">Load Profile</button>
+        <button onclick="testLoggedInProfile()">Test with Login Token</button>
+        <button onclick="showDemoProfile()">Show Demo Profile</button>
+        <div id="profileStatus"></div>
+        <div id="profileResult" class="result"></div>
+    </div>
+
+    <!-- API Health Check -->
+    <div class="test-section">
+        <h2>🏥 API Health Check</h2>
+        <button onclick="checkAllAPIs()">Check All APIs</button>
+        <div id="healthStatus"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5050/api';
+
+        function showStatus(elementId, message, isSuccess) {
+            const el = document.getElementById(elementId);
+            el.innerHTML = `<div class="${isSuccess ? 'success' : 'error'}">${message}</div>`;
+        }
+
+        function showResult(elementId, data) {
+            const el = document.getElementById(elementId);
+            el.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        }
+
+        async function testSearch(query) {
+            const searchQuery = query || document.getElementById('searchInput').value;
+            if (!searchQuery.trim()) {
+                showStatus('searchStatus', 'Please enter a search query', false);
+                return;
+            }
+
+            showStatus('searchStatus', `Searching for: ${searchQuery}...`, true);
+            
+            try {
+                const response = await fetch(`${API_BASE}/land/search?q=${encodeURIComponent(searchQuery)}`);
+                const data = await response.json();
+                
+                if (data.success && data.results) {
+                    showStatus('searchStatus', `✅ Search successful! Found ${data.results.length} results`, true);
+                    showResult('searchResult', data);
+                } else {
+                    showStatus('searchStatus', '⚠️ No results found', false);
+                    showResult('searchResult', data);
+                }
+            } catch (error) {
+                showStatus('searchStatus', `❌ Search failed: ${error.message}`, false);
+                showResult('searchResult', { error: error.message });
+            }
+        }
+
+        async function testAI(message) {
+            const aiMessage = message || document.getElementById('aiInput').value;
+            if (!aiMessage.trim()) {
+                showStatus('aiStatus', 'Please enter a message', false);
+                return;
+            }
+
+            showStatus('aiStatus', 'Sending message to AI...', true);
+            
+            try {
+                const response = await fetch(`${API_BASE}/ai/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: aiMessage })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.response) {
+                    showStatus('aiStatus', '✅ AI response received!', true);
+                    showResult('aiResult', {
+                        question: aiMessage,
+                        answer: data.response,
+                        source: data.source || 'AI'
+                    });
+                } else {
+                    showStatus('aiStatus', '⚠️ Invalid AI response', false);
+                    showResult('aiResult', data);
+                }
+            } catch (error) {
+                showStatus('aiStatus', `❌ AI request failed: ${error.message}`, false);
+                showResult('aiResult', { error: error.message });
+            }
+        }
+
+        function testProfile() {
+            const demoProfile = {
+                name: 'Demo User',
+                email: 'demo@geovaluvator.com',
+                phone: '+91 98765 43210',
+                verified: true,
+                role: 'user',
+                joinedDate: new Date().toISOString(),
+                lastLogin: new Date().toLocaleDateString()
+            };
+
+            showStatus('profileStatus', '✅ Profile loaded successfully', true);
+            showResult('profileResult', demoProfile);
+        }
+
+        function testLoggedInProfile() {
+            const token = localStorage.getItem('authToken');
+            const userStr = localStorage.getItem('user');
+            
+            if (!userStr) {
+                showStatus('profileStatus', '⚠️ No user logged in. Using demo profile.', false);
+                testProfile();
+                return;
+            }
+
+            try {
+                const user = JSON.parse(userStr);
+                const profile = {
+                    name: user.name || 'User',
+                    email: user.email,
+                    phone: user.phone || 'Not provided',
+                    verified: user.verified || false,
+                    role: user.role || 'user',
+                    joinedDate: user.createdAt,
+                    lastLogin: new Date().toLocaleDateString(),
+                    hasToken: !!token
+                };
+
+                showStatus('profileStatus', `✅ Logged in as: ${profile.email}`, true);
+                showResult('profileResult', profile);
+            } catch (e) {
+                showStatus('profileStatus', `❌ Error loading profile: ${e.message}`, false);
+            }
+        }
+
+        function showDemoProfile() {
+            const demoProfile = {
+                name: 'John Doe',
+                email: 'john.doe@example.com',
+                phone: '+91 99999 12345',
+                verified: true,
+                role: 'premium_user',
+                joinedDate: '2024-01-15T00:00:00.000Z',
+                lastLogin: new Date().toLocaleDateString(),
+                stats: {
+                    properties: 3,
+                    searches: 15,
+                    aiChats: 8,
+                    alerts: 2
+                },
+                verification: {
+                    email: true,
+                    phone: true,
+                    kyc: 'in_progress'
+                }
+            };
+
+            showStatus('profileStatus', '✅ Demo profile data', true);
+            showResult('profileResult', demoProfile);
+        }
+
+        async function checkAllAPIs() {
+            const healthDiv = document.getElementById('healthStatus');
+            healthDiv.innerHTML = '<p>Checking APIs...</p>';
+
+            const checks = [];
+
+            // Test Search API
+            try {
+                const searchRes = await fetch(`${API_BASE}/land/search?q=test`, { method: 'GET' });
+                checks.push({ 
+                    api: 'Search API', 
+                    status: searchRes.ok ? 'OK' : 'FAIL',
+                    code: searchRes.status 
+                });
+            } catch (e) {
+                checks.push({ api: 'Search API', status: 'FAIL', error: e.message });
+            }
+
+            // Test AI API
+            try {
+                const aiRes = await fetch(`${API_BASE}/ai/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'test' })
+                });
+                checks.push({ 
+                    api: 'AI Chat API', 
+                    status: aiRes.ok ? 'OK' : 'FAIL',
+                    code: aiRes.status 
+                });
+            } catch (e) {
+                checks.push({ api: 'AI Chat API', status: 'FAIL', error: e.message });
+            }
+
+            // Test Properties API
+            try {
+                const propRes = await fetch(`${API_BASE}/land/my-lands`, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken') || 'test'}` }
+                });
+                checks.push({ 
+                    api: 'Properties API', 
+                    status: propRes.status === 401 ? 'OK (Auth Required)' : (propRes.ok ? 'OK' : 'FAIL'),
+                    code: propRes.status 
+                });
+            } catch (e) {
+                checks.push({ api: 'Properties API', status: 'FAIL', error: e.message });
+            }
+
+            const html = checks.map(check => `
+                <div style="margin: 10px 0; padding: 10px; background: white; border-radius: 5px;">
+                    <strong>${check.api}:</strong> 
+                    <span class="status ${check.status.includes('OK') ? 'status-ok' : 'status-fail'}">
+                        ${check.status}
+                    </span>
+                    ${check.code ? ` (HTTP ${check.code})` : ''}
+                    ${check.error ? ` - ${check.error}` : ''}
+                </div>
+            `).join('');
+
+            healthDiv.innerHTML = html;
+        }
+
+        // Auto-run health check on load
+        window.addEventListener('load', () => {
+            checkAllAPIs();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "geovaluator-server",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.4.1",
+    "axios": "^1.13.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "cross-env": "^10.1.0",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^7.7.0",
+    "multer": "^2.0.2",
+    "nodemailer": "^6.10.1",
+    "pdfkit": "^0.15.0",
+    "request-ip": "^3.3.0",
+    "twilio": "^4.23.0",
+    "useragent": "^2.3.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
