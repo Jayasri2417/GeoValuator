@@ -5,8 +5,11 @@ GeoValuator is an advanced AI-powered platform for land valuation, risk assessme
 # Authors
 
 D.Jayasri (Y22ACS438)
+
 G.Karthik(L23ACS601)
+
 G.MadhuLatha(Y22ACS458)
+
 K.SivaLahari(Y22ACS476)
 
 # Implementation
