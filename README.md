@@ -1,6 +1,14 @@
-# GeoValuator
+# GeoValuator: An Integrated Geospatial System for Land Mapping and Property Analysis
 
 GeoValuator is an advanced AI-powered platform for land valuation, risk assessment, and real estate analysis. This application incorporates predictive machine learning models, geospatial mapping, and a comprehensive risk engine to provide users with accurate and deeply contextual real estate intelligence.
+# Authors
+D.Jayasri (Y22ACS438)
+G.Karthik(L23ACS601)
+G.MadhuLatha(Y22ACS458)
+K.SivaLahari(Y22ACS476)
+
+# Implementation
+https://github.com/Jayasri2417/GeoValuator
 
 ## Features
 
