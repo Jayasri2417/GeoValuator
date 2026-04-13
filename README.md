@@ -1,5 +1,7 @@
 # GeoValuator: An Integrated Geospatial System for Land Mapping and Property Analysis
 
+## Project Overview
+
 GeoValuator is an advanced AI-powered platform for land valuation, risk assessment, and real estate analysis. This application incorporates predictive machine learning models, geospatial mapping, and a comprehensive risk engine to provide users with accurate and deeply contextual real estate intelligence.
 
 # Authors
@@ -25,7 +27,7 @@ https://github.com/Jayasri2417/GeoValuator
 - **Unified Dashboard**: An intuitive real estate dashboard constructed in React, providing a centralized interface to manage properties, generate reports, and oversee risk analysis.
 - **Authentication & Security**: Secure user registration and login utilizing OTP features and role-based data isolation.
 
-## Project Structure
+## Project Components
 
 The project has a microservices-inspired monolithic repository structure:
 - **`client/`**: The modern React.js frontend providing the user interfaces (Dashboard, AI Agent Chat, Evident Generator, Map Canvas).
