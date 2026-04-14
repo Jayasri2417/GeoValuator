@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: geovaluator-backend
+    env: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: MONGO_URI
+        sync: false # User will input this once
+      - key: JWT_SECRET
+        value: geovaluator_secure_secret_2024_xyz
+      - key: ALLOWED_ORIGINS
+        value: https://client-alpha-six-85.vercel.app
+      - key: PORT
+        value: 10000
