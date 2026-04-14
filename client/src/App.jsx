@@ -10,7 +10,7 @@ import GravityHero from './components/landing/GravityHero';
 function App() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
+  const backendUrl = import.meta.env.VITE_API_BASE_URL || '';
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');

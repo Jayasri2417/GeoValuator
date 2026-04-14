@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, AlertTriangle, CheckCircle, MapPin, TrendingUp, Scale, FileText, ShieldAlert, Clock, Gavel, Coins } from 'lucide-react';
 
 export default function RiskSidebar({ selectedLand, onClose, onGenerateEvidence }) {
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
     const [legalAnalysis, setLegalAnalysis] = useState(null);
     const [priceForecast, setPriceForecast] = useState(null);
     const [usageRec, setUsageRec] = useState(null);
@@ -27,7 +28,7 @@ export default function RiskSidebar({ selectedLand, onClose, onGenerateEvidence 
             // FIRE ALL API REQUESTS CONCURRENTLY FOR FASTER LOAD
 
             // 1. Precise XGBoost Valuation (Fastest < 100ms)
-            const p1 = fetch('/api/ai/predict-price', {
+            const p1 = fetch(`${API_BASE}/api/ai/predict-price`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(selectedLand)
@@ -48,7 +49,7 @@ export default function RiskSidebar({ selectedLand, onClose, onGenerateEvidence 
             });
 
             // 2. Legal Risk Analysis (Gemini)
-            const p2 = fetch('/api/ai/analyze-legal-risk', {
+            const p2 = fetch(`${API_BASE}/api/ai/analyze-legal-risk`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -254,7 +255,7 @@ export default function RiskSidebar({ selectedLand, onClose, onGenerateEvidence 
                                     const userEmail = user?.email || 'citizen@gov.in';
                                     const userName = user?.name || 'jayasri';
 
-                                    const response = await fetch('/api/reports/request-verify', {
+                                    const response = await fetch(`${API_BASE}/api/reports/request-verify`, {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({
@@ -301,7 +302,7 @@ export default function RiskSidebar({ selectedLand, onClose, onGenerateEvidence 
                                         location: selectedLand.address?.formatted || 'Bapatla'
                                     };
 
-                                    await fetch('/api/alerts/trigger', {
+                                    await fetch(`${API_BASE}/api/alerts/trigger`, {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify(alertData)

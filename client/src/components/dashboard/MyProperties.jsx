@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, MapPin, FileText, Upload, Trash2, ExternalLink, Loader, X } from 'lucide-react';
 
 export default function MyProperties({ onNavigate }) {
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAddForm, setShowAddForm] = useState(false);
@@ -25,7 +26,7 @@ export default function MyProperties({ onNavigate }) {
     const fetchProperties = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const res = await fetch('/api/land/my-lands', {
+            const res = await fetch(`${API_BASE}/api/land/my-lands`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -79,7 +80,7 @@ export default function MyProperties({ onNavigate }) {
                     const docData = new FormData();
                     docData.append('document', selectedFile);
 
-                    const uploadRes = await fetch('/api/land/upload', {
+                    const uploadRes = await fetch(`${API_BASE}/api/land/upload`, {
                         method: 'POST',
                         body: docData
                     });
@@ -111,7 +112,7 @@ export default function MyProperties({ onNavigate }) {
 
             let apiSuccess = false;
             try {
-                const res = await fetch('/api/land/add', {
+                const res = await fetch(`${API_BASE}/api/land/add`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -299,7 +300,7 @@ export default function MyProperties({ onNavigate }) {
 
                                     <div className="flex flex-row md:flex-col gap-3 w-full md:w-auto border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-6">
                                         {property.documents?.length > 0 ? (
-                                            <a href={`${property.documents[0].url}`} target="_blank" rel="noreferrer" className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded border border-blue-100 text-sm font-bold hover:bg-blue-100 transition">
+                                            <a href={`${API_BASE}${property.documents[0].url}`} target="_blank" rel="noreferrer" className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded border border-blue-100 text-sm font-bold hover:bg-blue-100 transition">
                                                 <FileText size={16} /> View Deal
                                             </a>
                                         ) : (

@@ -22,7 +22,7 @@ const AIAgentChat = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
+    const backendUrl = import.meta.env.VITE_API_BASE_URL || '';
 
     // Handle message submission
     const handleSendMessage = async () => {

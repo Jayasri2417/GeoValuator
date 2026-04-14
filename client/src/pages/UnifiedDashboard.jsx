@@ -13,6 +13,7 @@ import MyProperties from '../components/dashboard/MyProperties';
 
 export default function LandIntelligence() {
     const [landData, setLandData] = useState([]);
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
     const [loading, setLoading] = useState(true);
     const [selectedLand, setSelectedLand] = useState(null);
     const [activeFeature, setActiveFeature] = useState(null);
@@ -37,7 +38,7 @@ export default function LandIntelligence() {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-                const response = await fetch('/api/land', { signal: controller.signal });
+                const response = await fetch(`${API_BASE}/api/land`, { signal: controller.signal });
                 clearTimeout(timeoutId);
 
                 if (!response.ok) throw new Error("Failed to fetch from /api/land");
