@@ -14,9 +14,8 @@ router.post('/request-verify', async (req, res) => {
     try {
         const { landId, email, userName, surveyNumber } = req.body;
 
-        // Parse the origin from the request (so if frontend is on 5174, it downloads via 5174 proxy)
-        const originUrl = req.get('origin') || req.get('referer')?.split('/').slice(0, 3).join('/') || 'http://localhost:5174';
-        const downloadUrl = `${originUrl}/api/reports/${landId}`;
+        const hostUrl = req.get('host') ? `https://${req.get('host')}` : 'http://localhost:5050';
+        const downloadUrl = `${hostUrl}/api/reports/${landId}`;
 
         const htmlContent = `
             <div style="font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 650px; margin: 0 auto; border: 1px solid #e1e4e8; border-radius: 8px; background-color: #ffffff; padding: 0;">
