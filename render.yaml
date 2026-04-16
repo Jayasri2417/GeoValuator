@@ -19,7 +19,7 @@ services:
         sync: false
       # Expose MONGO_URI and GEMINI_API_KEY as placeholders or explicit
       - key: ALLOWED_ORIGINS
-        value: "https://geovaluator.vercel.app,https://your-vercel-domain.vercel.app"
+        value: "https://geovaluator.vercel.app,https://client-omega-five-68.vercel.app"
         # The user's frontend domain. Since we don't know the exact vercel domain from the json, we can leave it flexible or the backend will auto-allow CORS when origin matches. 
         # Actually in index.js allowedOrigins handles CORS.
 
