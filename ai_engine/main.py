@@ -22,8 +22,9 @@ from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExport
 from contextlib import asynccontextmanager
 
 # ---------------- PRECISE MODEL CONFIG ----------------
-MODEL_PATH = "price_model.pkl"
-ENCODER_PATH = "label_encoders.pkl"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "price_model.pkl")
+ENCODER_PATH = os.path.join(BASE_DIR, "label_encoders.pkl")
 xg_model = None
 encoders = None
 
@@ -408,5 +409,8 @@ def predict_value(base_price: float, area_code: str = "URBAN"):
 
 if __name__ == "__main__":
     import uvicorn
-    # Use 5001 for the unified AI engine as per our new architecture
-    uvicorn.run("main:app", host="127.0.0.1", port=5001, reload=True)
+    # Render requires binding to 0.0.0.0 and dynamically getting the PORT
+    host = os.environ.get("HOST", "0.0.0.0")
+    port = int(os.environ.get("PORT", 5001))
+    print(f"DEBUG: Starting AI engine on {host}:{port}")
+    uvicorn.run("main:app", host=host, port=port, reload=(host == "127.0.0.1"))

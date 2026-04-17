@@ -49,7 +49,8 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
       'http://localhost:5176',
       'https://client-omega-five-68.vercel.app',
       'https://geovaluator-client-testing.vercel.app',
-      'https://geovaluator.vercel.app'
+      'https://geovaluator.vercel.app',
+      'https://geovaluator-ercn.onrender.com'
     ];
 
 app.use(cors({
@@ -59,7 +60,8 @@ app.use(cors({
     
     const isAllowed = allowedOrigins.includes(origin) || 
                      (process.env.NODE_ENV === 'development') ||
-                     origin.endsWith('.vercel.app'); // Allow all Vercel deployments
+                     origin.endsWith('.vercel.app') ||
+                     origin.endsWith('.onrender.com'); // Allow all Render deployments
 
     if (isAllowed) {
       callback(null, true);
@@ -173,11 +175,19 @@ const startApp = async () => {
     // Non-fatal: server continues
   }
 
-  // ── 4. Determine port (auto-increment if busy) ─────────────
+  // ── 4. Determine port (exact match for Render, auto-increment for local) ────
   const desiredPort = parseInt(process.env.PORT) || 5050;
-  const port = await findAvailablePort(desiredPort);
+  let port;
+  
+  if (process.env.PORT) {
+    // On Render/Production, use the assigned PORT strictly
+    port = desiredPort;
+  } else {
+    // On Local, find next available port
+    port = await findAvailablePort(desiredPort);
+  }
 
-  if (port !== desiredPort) {
+  if (port !== desiredPort && !process.env.PORT) {
     console.warn(`Port ${desiredPort} is in use. Using port ${port} instead.`);
   }
 
