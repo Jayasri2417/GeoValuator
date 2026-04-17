@@ -22,7 +22,7 @@ const Register = ({ onRegister }) => {
   const [userId, setUserId] = useState(null);
   const [otp, setOtp] = useState('');
 
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://geovaluator-backend.onrender.com';
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

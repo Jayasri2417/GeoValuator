@@ -15,7 +15,7 @@ export default function EvidenceGenerator({ isOpen, onClose, landId }) {
         "Finalizing Court-Ready PDF..."
     ];
 
-    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://geovaluator-backend.onrender.com';
 
     useEffect(() => {
         if (isOpen) {

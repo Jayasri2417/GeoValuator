@@ -13,7 +13,7 @@ import MyProperties from '../components/dashboard/MyProperties';
 
 export default function LandIntelligence() {
     const [landData, setLandData] = useState([]);
-    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://geovaluator-backend.onrender.com';
     const [loading, setLoading] = useState(true);
     const [selectedLand, setSelectedLand] = useState(null);
     const [activeFeature, setActiveFeature] = useState(null);

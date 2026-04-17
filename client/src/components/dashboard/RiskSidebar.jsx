@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, AlertTriangle, CheckCircle, MapPin, TrendingUp, Scale, FileText, ShieldAlert, Clock, Gavel, Coins } from 'lucide-react';
 
 export default function RiskSidebar({ selectedLand, onClose, onGenerateEvidence }) {
-    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://geovaluator-backend.onrender.com';
     const [legalAnalysis, setLegalAnalysis] = useState(null);
     const [priceForecast, setPriceForecast] = useState(null);
     const [usageRec, setUsageRec] = useState(null);

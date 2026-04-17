@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, MapPin, FileText, Upload, Trash2, ExternalLink, Loader, X } from 'lucide-react';
 
 export default function MyProperties({ onNavigate }) {
-    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://geovaluator-backend.onrender.com';
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAddForm, setShowAddForm] = useState(false);

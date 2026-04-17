@@ -14,7 +14,7 @@ app.use(express.json());
 app.get('/api/config', (req, res) => {
     res.json({
         googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || '',
-        backendUrl: process.env.BACKEND_URL || process.env.CLIENT_BACKEND_URL || 'http://localhost:5051'
+        backendUrl: process.env.BACKEND_URL || process.env.CLIENT_BACKEND_URL || 'https://geovaluator-backend.onrender.com'
     });
 });
 

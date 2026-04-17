@@ -10,7 +10,7 @@ import GravityHero from './components/landing/GravityHero';
 function App() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const backendUrl = import.meta.env.VITE_API_BASE_URL || '';
+  const backendUrl = import.meta.env.VITE_API_BASE_URL || 'https://geovaluator-backend.onrender.com';
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');

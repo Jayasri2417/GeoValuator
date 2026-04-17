@@ -1,7 +1,7 @@
 // API Service for GeoValuator
 class APIService {
     constructor() {
-        this.backendUrl = 'http://localhost:5000';
+        this.backendUrl = 'https://geovaluator-backend.onrender.com';
         this.googleMapsApiKey = '';
         this.initialized = false;
     }

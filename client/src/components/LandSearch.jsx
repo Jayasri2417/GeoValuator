@@ -19,7 +19,7 @@ const LandSearch = ({ onSelectLand = () => { }, onNavigate = () => { } }) => {
     { query: 'Stuartpuram', type: 'location', time: '3 days ago', results: 12 },
   ];
 
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://geovaluator-backend.onrender.com';
 
   const handleSearch = async (queryOverride) => {
     const q = (typeof queryOverride === 'string' ? queryOverride : searchQuery).trim();
