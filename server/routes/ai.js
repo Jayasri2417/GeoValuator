@@ -249,15 +249,22 @@ If asked about prices, explain that you use XGBoost machine learning models for 
     } catch (error) {
         console.error('Gemini API Error:', error.response?.data || error.message);
         
-        let errorMsg = "The AI agent is resting. Please try again in 30 seconds.";
-        if (error.response?.status === 403) {
+        const status = error.response?.status;
+        let errorMsg = `The AI agent is resting (Status ${status || 'Unknown'}). Please try again in 30 seconds.`;
+        
+        if (status === 403) {
             errorMsg = "API Key Error: Your Gemini API Key has been reported as leaked or is invalid. Please update it in the server/.env file or root .env file.";
+        } else if (status === 429) {
+            errorMsg = "Quota Exceeded: Your Gemini API key has reached its free tier limit. Please wait a moment or use a different key.";
+        } else if (status === 400) {
+            errorMsg = "Model Error: There was an issue with the AI model configuration. We are working on a fix.";
         }
 
         res.status(500).json({
             success: false,
             response: errorMsg,
-            details: error.message
+            details: error.message,
+            statusCode: status
         });
     }
 });
