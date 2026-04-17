@@ -3,8 +3,10 @@ const router = express.Router();
 const axios = require('axios');
 const Land = require('../models/Land');
 
-const PYTHON_AI_ENGINE_URL = process.env.PYTHON_AI_ENGINE_URL || 'http://127.0.0.1:5001';
+const PYTHON_AI_ENGINE_URL = process.env.PYTHON_AI_ENGINE_URL || 'https://geovaluator-ai.onrender.com';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+
+console.log(`[AI SERVICE] Initialized with Engine URL: ${PYTHON_AI_ENGINE_URL}`);
 
 async function refreshPredictionAsync(land) {
     try {

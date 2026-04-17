@@ -50,7 +50,8 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
       'https://client-omega-five-68.vercel.app',
       'https://geovaluator-client-testing.vercel.app',
       'https://geovaluator.vercel.app',
-      'https://geovaluator-ercn.onrender.com'
+      'https://geovaluator-ercn.onrender.com',
+      'https://geovaluator-api.onrender.com'
     ];
 
 app.use(cors({
