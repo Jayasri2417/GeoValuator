@@ -15,6 +15,8 @@ export default function EvidenceGenerator({ isOpen, onClose, landId }) {
         "Finalizing Court-Ready PDF..."
     ];
 
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
     useEffect(() => {
         if (isOpen) {
             setProgress(0);
@@ -103,7 +105,7 @@ export default function EvidenceGenerator({ isOpen, onClose, landId }) {
                         ) : (
                             <button
                                 onClick={() => {
-                                    window.open(`/api/generate-evidence/${landId}`, '_blank');
+                                    window.open(`${API_BASE}/api/generate-evidence/${landId}`, '_blank');
                                     onClose();
                                 }}
                                 className="w-full py-3 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 transition font-bold flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/50"
